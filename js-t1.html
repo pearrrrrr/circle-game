@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <h1>Hello</h1>
+        <h2>World</h2>
+        <div id="result"></div>
+        <button onclick="countUp()">Count UP!</button>
+    </body>
+    <script>
+        let x = 5;
+        document.getElementById("result").innerHTML = x;
+
+        function countUp() {
+            console.log("click!");
+            x = x + 1;
+            document.getElementById("result").innerHTML = x;
+        }
+    </script>
+</html>
