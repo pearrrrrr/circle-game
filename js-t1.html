@@ -12,6 +12,7 @@
     <script>
         
         let x = 10;
+        let y = x;
         display(x);
 
         function display(numberDisplay) {
@@ -46,7 +47,9 @@
         }
 
         function reset() {
-            
+            console.log("reset");
+            display(y);
+            x = y; 
         }
     </script>
 </html>
