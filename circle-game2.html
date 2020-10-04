@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <title>Circle-game2</title>
+    </head>
+    <body onkeyup="KeyDown(event)">
+        <canvas id="paper" width="400" height="400"></canvas>
+        <!-- comment in here -->
+    </body>
+    <script>
+        var activeScreen = null
+        var canvas = document.getElementById("paper");
+        function KeyDown(event){
+            if(activeScreen){
+                activeScreen.onKeyDown(event)
+            }
+        }
+
+        class Scene {
+            start() { }
+            onKeyDown(event) { }
+        }
+
+        class CountDownScene extends Scene{
+            interval = null
+            value = 3
+
+            start(){
+                this.interval = setInterval(() => {
+                    this.count()
+                },1000)
+            }
+
+            count(){
+                //this.value--;
+                //2
+                if(this.value >= 0){
+                    window.requestAnimationFrame(this.draw)
+                }else{
+                    clearInterval(this.interval)
+                    nextScene()
+                }
+            }
+
+            draw = () => {
+                let ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.font = "80px Grorgia"
+                ctx.fillStyle = 'black'
+                if(this.value == 0)
+                    ctx.fillText("Start!", 200, 200)
+                else
+                    ctx.fillText("" + this.value, 200, 200)
+                this.value--;
+                //3
+            }
+        }
+
+        class GamePlayScene extends Scene {
+            //game = {max_size: 200, center_x: 200, center_y: 200, size: 5, step: 5, is_end: false};
+            interval = null
+            max_size = 200
+            center_x = 200
+            center_y = 200
+            size = 5
+            step = 5
+            is_end = false
+
+            start(){
+                this.interval = setInterval (() => {
+                    this.grow();
+                    window.requestAnimationFrame(this.draw);
+                }, 50)
+            }
+
+            shrink(){
+                if (this.is_end == false && this.size > 0) {
+                    this.size -= this.step * 2;
+                    console.log("size DOWN>> ", this.size)
+                }
+            }
+
+            grow(){
+                if (this.size >= this.max_size){
+                    this.endGame();
+                } else {
+                this.size = this.size + this.step;
+                console.log("size UP>> ", this.size)
+                }
+            }
+
+            draw = () => {
+                var ctx = canvas.getContext("2d");
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.beginPath();
+                ctx.arc(this.center_x, this.center_y, this.size, 0, 2* Math.PI);
+                ctx.fillStyle = "green";
+                ctx.fill();
+            }
+
+            endGame() {
+                this.is_end = true;
+                clearInterval(this.interval);
+            }
+
+            onKeyDown(event) {
+                if (event.keyCode == 32) {
+                    this.shrink();
+                }
+            }
+
+        }
+
+        function nextScene(){
+            if(activeScreen instanceof CountDownScene){
+                setActiveScene(new GamePlayScene())
+            }
+        }
+
+        function setActiveScene(scene) {
+            activeScreen = scene
+            activeScreen.start()
+        }
+
+        setActiveScene(new CountDownScene()) //first
+    </script>
+
+</html>
