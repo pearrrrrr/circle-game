@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>03 file HTML</title>
+    </head>
+
+    <body>
+        <script type="text/javascript">
+            var digit1 = 0;
+            var digit2 = 0;
+            var digit3 = 0;
+            while (digit3 < 10) {
+                while (digit2 < 10) {
+                    while (digit1 < 10) {
+                        digit1 = digit1 + 1;
+                        console.log(digit3 * 100 + digit2 * 10 + digit1)
+                    }
+                    digit1 = 0;
+                    digit2 = digit2 + 1;
+                }
+                digit1 = 0;
+                digit2 = 0;
+                digit3 = digit3 + 1;
+            }
+            
+
+        </script>
+    </body>
+</html>
